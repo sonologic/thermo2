@@ -6,8 +6,6 @@ class SchedulerSetupTest(unittest.TestCase):
     def setUp(self):
         self.scheduler = Scheduler()
 
-class SchedulerScheduleTest(SchedulerSetupTest):
-
     def test_scheduler_schedule(self):
         self.assertEqual(self.scheduler.schedule(),'idle')
 

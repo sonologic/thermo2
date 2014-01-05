@@ -2,7 +2,7 @@ import unittest
 from scheduler import Scheduler
 from time import time
 
-class SchedulerSetupTest(unittest.TestCase):
+class SchedulerTest(unittest.TestCase):
 
     def test_scheduler_schedule(self):
         self.scheduler = Scheduler()

@@ -4,7 +4,7 @@ from time import time
 
 class EventTest(unittest.TestCase):
 
-    def test_setup(self):
+    def test_event_setup(self):
         t = time()
         event = Event(t,'test_event')
         self.assertEqual(event.getTime(),t)

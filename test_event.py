@@ -1,13 +1,14 @@
 import unittest
 from event import Event
+from time import time
 
 class EventTest(unittest.TestCase):
 
     def test_setup(self):
         t = time()
         event = Event(t,'test_event')
-        assertEqual(event.getTime(),t)
-        assertEqual(event.getLabel(),t)
+        self.assertEqual(event.getTime(),t)
+        self.assertEqual(event.getLabel(),'test_event')
 
 if __name__ == "__main__":
     unittest.main()

@@ -11,6 +11,7 @@ from test_event_listener import EventListenerTest
 from test_sensor_event import SensorEventTest
 from test_sensor import SensorTest
 from test_event_processor import EventProcessorTest
+from test_event_processor_delay import EventProcessorDelayTest
 
 if __name__ == "__main__":
 
@@ -22,6 +23,7 @@ if __name__ == "__main__":
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventListenerTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventProcessorTest))
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(EventProcessorDelayTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorEventTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorTest))
 

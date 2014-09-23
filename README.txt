@@ -1,3 +1,16 @@
+Design
+======
+
+An event is a tuple (time,label).
+
+Events trigger event listeners. An event listener fires of an asynchronous
+process, and returns to the scheduler. This may result in any number of
+asynchronous processes, in case of many listeners.
+
+Only when all of the asynchronous processes have completed will another
+event with that label be able to fire. Any events with that label in the
+time before completion of all asynchronous event handlers will be ignored.
+
 Use cases
 =========
 

@@ -75,6 +75,8 @@ class Scheduler:
 
     def add_listener(self,listener):
         for event in listener.eventList():
+            if not isinstance(event, str):
+                raise TypeError('element of listener event array is not string')
             if not event in self.listeners.keys():
                 self.listeners[event] = []
         self.listeners[event].append(listener)

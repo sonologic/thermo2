@@ -76,6 +76,21 @@ class SchedulerTest(unittest.TestCase):
         self.assertEqual(len(self.scheduler.listeners),1)
         self.assertEqual(self.scheduler.listeners['foo'],[listener])
 
+    def test_scheduler_add_bad_listener(self):
+        self.scheduler = Scheduler()
+
+        listener = SchedulerTestListener('foo')
+        listener.addEvent(None)
+
+        type_error = False
+
+        try:
+            self.scheduler.add_listener(listener)
+        except TypeError:
+            type_error = True
+
+        self.assertEqual(type_error,True)
+
     def test_scheduler_listener(self):
         scheduler = Scheduler()
 
@@ -109,6 +124,6 @@ class SchedulerTest(unittest.TestCase):
 
         self.assertEqual(count,4)
         self.assertEqual(listener.count,4)
- 
+
 if __name__ == "__main__":
     unittest.main()

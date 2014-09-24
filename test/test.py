@@ -12,6 +12,8 @@ from test_sensor_event import SensorEventTest
 from test_sensor import SensorTest
 from test_event_processor import EventProcessorTest
 from test_event_processor_delay import EventProcessorDelayTest
+from test_script import ScriptTest
+from test_script_expression import ScriptExpressionTest
 
 if __name__ == "__main__":
 
@@ -26,6 +28,8 @@ if __name__ == "__main__":
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventProcessorDelayTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorEventTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorTest))
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptTest))
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptExpressionTest))
 
         unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suite))
 

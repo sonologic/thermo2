@@ -28,6 +28,16 @@ class ScriptExpressionTest(unittest.TestCase):
         rv = exp.eval({'foo_bar':12})
         self.assertEqual(rv, 31)
         
+    def test_parser_evaluate_id_lit(self):
+        exp = ScriptExpression('foo_bar + 31')
+        rv = exp.eval({'foo_bar':11})
+        self.assertEqual(rv, 42)
+        
+    def test_parser_evaluate_id_id(self):
+        exp = ScriptExpression('foo + bar')
+        rv = exp.eval({'foo':3984,'bar':747})
+        self.assertEqual(rv, 3984+747)
+        
         
 
     def test_parser_fail(self):

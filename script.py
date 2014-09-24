@@ -4,13 +4,20 @@ from script_expression import *
 from sensor_event import *
 from time import time
 
-class ScriptParseError(Exception):
-    def __init__(self,str):
-        Exception.__init__(self,str)
+class ScriptError(Exception):
+    def __init__(self,lineno,message):
+        Exception.__init__(self)
+        self.lineno=lineno
+        self.message=message
 
-class ScriptRuntimeError(Exception):
-    def __init__(self,str):
-        Exception.__init__(self,str)
+    def __str__(self):
+        return "line %d: %s" % (self.lineno, self.message)
+
+class ScriptParseError(ScriptError):
+    pass
+
+class ScriptRuntimeError(ScriptError):
+    pass
 
 class ScriptLines:
     def __init__(self,str):
@@ -76,11 +83,11 @@ class Script:
                 raise ScripteParseError("parse error on line %d, unbalanced endif" % lineno)
 
             # parse error
-            raise ScriptParseError("Unable to parse line %d: %s" % (lineno,line) )
+            raise ScriptParseError(lineno, "Unable to parse '%s'" % line)
         
         # end of file
         if level!=0:
-            raise ScriptParseError("premature eof on line %d, level %d" % (lineno, level))
+            raise ScriptParseError(lineno, "premature eof (level %d)" % level)
 
         return script
 
@@ -150,7 +157,7 @@ class Script:
 
                 continue
 
-            raise ScriptRuntimeError("invalid action %s on line %d" % (line['action'], line['line']))
+            raise ScriptRuntimeError(line['line'], "invalid action %s" % line['action'])
 
         return returnEvents
 

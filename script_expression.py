@@ -52,18 +52,18 @@ class ScriptExpression:
         if self.term1_type=='int':
             term1_val = int(self.term1)
         if self.term1_type=='identifier':
-            term1_val = args[self.term1]
+            if self.term1 in args.keys():
+                term1_val = args[self.term1]
 
         term2_val=None
         if self.term2_type=='int':
             term2_val = int(self.term2)
         if self.term2_type=='identifier':
-            term2_val = args[self.term2]
+            if self.term2 in args.keys():
+                term2_val = args[self.term2]
 
-        if term1_val==None:
-            raise ScriptExpressionEvalError('undefined left term')
-        if term2_val==None:
-            raise ScriptExpressionEvalError('undefined right term')
+        if term1_val==None or term2_val==None:
+            return None
 
         if self.oper=='+':
             return term1_val + term2_val

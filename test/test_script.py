@@ -27,6 +27,11 @@ class ScriptTest(unittest.TestCase):
         else:
             self.fail("Expected a ScriptParseError")
 
+    def test_parser_if(self):
+        script = Script('''if value < 10 then
+                               emit small_value(value)
+                           endif''')
+
     def test_eval(self):
         script = Script('''sum := op1_value + op2_value
                            emit sum_value(sum)''')
@@ -47,6 +52,30 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(isinstance(e3,SensorEvent),True)
         self.assertEqual(e3.getLabel(),'sum_value')
         self.assertEqual(e3.getValue(),5)
+
+    def test_eval_if_pass(self):
+        script = Script('''if value < 10 then
+                               emit small_value(value)
+                           endif''')
+        rv = script.eval(SensorEvent(time(),'value',2))
+
+        self.assertEqual(isinstance(rv,list),True)
+        self.assertEqual(len(rv),1)
+
+        e = rv[0]
+
+        self.assertEqual(isinstance(e,SensorEvent),True)
+        self.assertEqual(e.getLabel(),'small_value')
+        self.assertEqual(e.getValue(),2)
+
+
+    def test_eval_if_fail(self):
+        script = Script('''if value > 10 then
+                               emit large_value(value)
+                           endif''')
+        rv = script.eval(SensorEvent(time(),'value',2))
+
+        self.assertEqual(rv,[])
 
 
 if __name__ == "__main__":

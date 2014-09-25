@@ -2,6 +2,7 @@ import re
 from parser_constants import ParserConstants
 from script_expression import *
 from sensor_event import *
+from line_reader import *
 from time import time
 
 class ScriptError(Exception):
@@ -19,22 +20,6 @@ class ScriptParseError(ScriptError):
 class ScriptRuntimeError(ScriptError):
     pass
 
-class ScriptLines:
-    def __init__(self,str):
-        self.lines=str.split("\n")
-        self.lineno=0
-
-    def consume(self):
-        if self.lineno > len(self.lines)-1:
-            return (None,None)
-
-        self.lineno += 1
-
-        return (self.lineno,self.lines[self.lineno-1])
-
-    def eof(self):
-        return self.lineno > len(self.lines)-1
-
 class Script:
     def __init__(self,str):
         self.script=[]
@@ -42,7 +27,7 @@ class Script:
         self.parse(str)
 
     def parse(self,str):
-        lines = ScriptLines(str)
+        lines = LineReader(str)
         self.script = self._parse(0,lines)
         #print "parsed script:"
         #print self.script

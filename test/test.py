@@ -14,11 +14,13 @@ from test_event_processor import EventProcessorTest
 from test_event_processor_delay import EventProcessorDelayTest
 from test_script import ScriptTest
 from test_script_expression import ScriptExpressionTest
+from test_line_reader import LineReaderTest
 
 if __name__ == "__main__":
 
         suite = []
 
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(LineReaderTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(TimerTest))

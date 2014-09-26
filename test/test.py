@@ -16,11 +16,13 @@ from test_script import ScriptTest
 from test_script_expression import ScriptExpressionTest
 from test_line_reader import LineReaderTest
 from test_process import ProcessTest
+from test_myexceptions import MyexceptionsTest
 
 if __name__ == "__main__":
 
         suite = []
 
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(MyexceptionsTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(LineReaderTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))

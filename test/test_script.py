@@ -6,6 +6,7 @@ if __name__ == "__main__":
     sys.path.insert(0, "../")
 
 from sensor_event import *
+from event import *
 from script import *
 
 class ScriptTest(unittest.TestCase):
@@ -76,6 +77,20 @@ class ScriptTest(unittest.TestCase):
         rv = script.eval(SensorEvent(time(),'value',2))
 
         self.assertEqual(rv,[])
+
+    def test_eval_emit_simple(self):
+        script = Script('''emit simple_event''')
+
+        rv = script.eval()
+
+        self.assertEqual(isinstance(rv,list),True)
+        self.assertEqual(len(rv),1)
+
+        e = rv[0]
+
+        self.assertEqual(isinstance(e,Event),True)
+        self.assertEqual(e.getLabel(),'simple_event')
+        
 
 
 if __name__ == "__main__":

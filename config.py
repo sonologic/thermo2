@@ -48,8 +48,10 @@ class Config:
                 return process
 
             # trigger
-            match = re.match('^\s*trigger:\s*('+ParserConstants.RE_IDENTIFIER+')(\s*,\s*('+ParserConstants.RE_IDENTIFIER+'))*\s*$', line)
+            match = re.match('^\s*trigger:\s*(('+ParserConstants.RE_IDENTIFIER+')(\s*,\s*('+ParserConstants.RE_IDENTIFIER+'))*)\s*$', line)
             if match:
+                for event in re.split('\s*,\s*',match.group(1)):
+                    process.addEvent(event)
                 continue
 
             # script

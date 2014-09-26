@@ -42,8 +42,5 @@ class ConfigTest(unittest.TestCase):
                             }
                         }''')
 
-        print exp
-
-
 if __name__ == "__main__":
     unittest.main()

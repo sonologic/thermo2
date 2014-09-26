@@ -90,7 +90,21 @@ class ScriptTest(unittest.TestCase):
 
         self.assertEqual(isinstance(e,Event),True)
         self.assertEqual(e.getLabel(),'simple_event')
-        
+
+    def test_eval_simple_in(self):
+        script = Script('''emit simple_event''')
+
+        e = Event(time(), 'simple_event')
+
+        rv = script.eval(e)
+
+        self.assertEqual(isinstance(rv,list),True)
+        self.assertEqual(len(rv),1)
+
+        e = rv[0]
+
+        self.assertEqual(isinstance(e,Event),True)
+        self.assertEqual(e.getLabel(),'simple_event')
 
 
 if __name__ == "__main__":

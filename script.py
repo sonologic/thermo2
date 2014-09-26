@@ -94,7 +94,8 @@ class Script:
         
     def eval(self,event=None):
         if event!=None:
-            self._setVar(event.getLabel(),event.getValue())
+            if isinstance(event, SensorEvent):
+                self._setVar(event.getLabel(),event.getValue())
         return self._eval(self.script)
 
     def _eval(self,script):

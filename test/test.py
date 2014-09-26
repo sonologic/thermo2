@@ -15,6 +15,7 @@ from test_event_processor_delay import EventProcessorDelayTest
 from test_script import ScriptTest
 from test_script_expression import ScriptExpressionTest
 from test_line_reader import LineReaderTest
+from test_process import ProcessTest
 
 if __name__ == "__main__":
 
@@ -32,6 +33,7 @@ if __name__ == "__main__":
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptExpressionTest))
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(ProcessTest))
 
         unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suite))
 

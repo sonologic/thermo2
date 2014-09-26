@@ -2,6 +2,7 @@ import re
 from line_reader import LineReader
 from parser_constants import *
 from script import *
+from process import *
 
 class ConfigError(Exception):
     """ TODO: abstract this, duplicates ScriptError """
@@ -15,22 +16,6 @@ class ConfigError(Exception):
 
 class ConfigParseError(ConfigError):
     pass
-
-class Process:
-    def __init__(self):
-        self.label=None
-        self.trigger=[]
-        self.script=None
-
-    def __str__(self):
-        rv  = "label: "+str(self.label)+"\n"
-        rv += "trigger: "+", ".join(self.trigger)+"\n"
-        rv += "script: {\n"
-        rv += "\n".join((2 * " ") + i for i in str(self.script).splitlines())
-        rv += "\n}\n"
-
-        return rv
-        
 
 class Config:
     def __init__(self,str):

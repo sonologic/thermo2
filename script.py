@@ -44,13 +44,19 @@ class Script:
                 script.append( { 'line':lineno, 'action':'assign', 'dst':match.group(1), 'exp':exp } )
                 continue
             
-            # emit 
+            # emit SensorEvent (with value)
             match=re.match('^\s*emit\s*('+ParserConstants.RE_IDENTIFIER+')\s*\(\s*('+ParserConstants.RE_IDENTIFIER+')\s*\)\s*$', line)
             if match:
                 script.append( { 'line':lineno, 'action':'emit', 'event':match.group(1), 'arg':match.group(2) } )
                 continue
 
             if re.match('^\s*$',line):
+                continue
+
+            # emit Event (without value)
+            match=re.match('^\s*emit\s*('+ParserConstants.RE_IDENTIFIER+')\s*$', line)
+            if match:
+                script.append( { 'line':lineno, 'action':'emit', 'event':match.group(1) } )
                 continue
 
             # if
@@ -99,8 +105,14 @@ class Script:
                 self._setVar(line['dst'], line['exp'].eval(self.var))
                 continue
             if line['action']=='emit':
-                if self._getVar(line['arg'])!=None:
-                    e = SensorEvent(time(), line['event'], self._getVar(line['arg']))
+                if 'arg' in line.keys():
+                    # SensorEvent
+                    if self._getVar(line['arg'])!=None:
+                        e = SensorEvent(time(), line['event'], self._getVar(line['arg']))
+                        returnEvents.append(e)
+                else:
+                    # Event
+                    e = Event(time(), line['event'])
                     returnEvents.append(e)
                 continue
                 #script.append( { 'line':lineno, 'action':'if', 'sub':subscript, 'cmp':match.group(5), \

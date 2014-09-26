@@ -4,20 +4,12 @@ from script_expression import *
 from sensor_event import *
 from line_reader import *
 from time import time
+from myexceptions import *
 
-class ScriptError(Exception):
-    def __init__(self,lineno,message):
-        Exception.__init__(self)
-        self.lineno=lineno
-        self.message=message
-
-    def __str__(self):
-        return "line %d: %s" % (self.lineno, self.message)
-
-class ScriptParseError(ScriptError):
+class ScriptParseError(ParserError):
     pass
 
-class ScriptRuntimeError(ScriptError):
+class ScriptRuntimeError(ParserError):
     pass
 
 class Script:

@@ -3,18 +3,9 @@ from line_reader import LineReader
 from parser_constants import *
 from script import *
 from process import *
+from myexceptions import *
 
-class ConfigError(Exception):
-    """ TODO: abstract this, duplicates ScriptError """
-    def __init__(self,lineno,message):
-        Exception.__init__(self)
-        self.lineno=lineno
-        self.message=message
-
-    def __str__(self):
-        return "line %d: %s" % (self.lineno, self.message)
-
-class ConfigParseError(ConfigError):
+class ConfigParseError(ParserError):
     pass
 
 class Config:

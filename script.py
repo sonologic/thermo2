@@ -24,6 +24,12 @@ class Script:
         #print "parsed script:"
         #print self.script
 
+    def _parseTerm(self,str):
+        if re.match('^'+ParserConstants.RE_INTEGER+'$',str):
+            return ('int',int(str))
+        if re.match('^'+ParserConstants.RE_IDENTIFIER+'$',str):
+            return ('identifier',str)
+
     def _parse(self,level,lines):
         script = []
         while not lines.eof():
@@ -55,8 +61,10 @@ class Script:
             match=re.match('^\s*if\s*('+ParserConstants.RE_CONDITION+')\s*then\s*$', line)
             if match:
                 subscript = self._parse(level+1,lines)
+                t1 = self._parseTerm(match.group(2))
+                t2 = self._parseTerm(match.group(6))
                 script.append( { 'line':lineno, 'action':'if', 'sub':subscript, 'cmp':match.group(5), \
-                                 't1':match.group(2), 't2':match.group(6) } )
+                                 't1':t1, 't2':t2 } )
                 continue;
 
             # endif
@@ -83,6 +91,20 @@ class Script:
 
         raise Exception("Variable "+var+" used before assignment")        
 
+    def _hasVar(self,var):
+        if var in self.var.keys():
+            return True
+        return False
+
+    def _evalTerm(self,term):
+        (termtype, val) = term
+        if termtype == 'int':
+            return val
+        if termtype == 'identifier':
+            if self._hasVar(val):
+                return self._getVar(val)
+            else:
+                return None
         
     def eval(self,event=None):
         if event!=None:
@@ -111,22 +133,15 @@ class Script:
                 #script.append( { 'line':lineno, 'action':'if', 'sub':subscript, 'cmp':match.group(5), \
                 #                 't1':match.group(2), 't2':match.group(6) } )
             if line['action']=='if':
-                t1_val=None
-                t2_val=None
-                # todo, this should have been parsed earlier
-                if re.match('^'+ParserConstants.RE_INTEGER+'$',line['t1']):
-                    t1_val=int(line['t1'])
-                if re.match('^'+ParserConstants.RE_INTEGER+'$',line['t2']):
-                    t2_val=int(line['t2'])
-                if re.match('^'+ParserConstants.RE_IDENTIFIER+'$',line['t1']):
-                    t1_val=self._getVar(line['t1'])
-                if re.match('^'+ParserConstants.RE_IDENTIFIER+'$',line['t2']):
-                    t2_val=self._getVar(line['t2'])
+                # evaluate terms (t1 cmp t2)
+                t1_val = self._evalTerm(line['t1'])
+                t2_val = self._evalTerm(line['t2'])
                 
                 # condition with any one term None is always false
                 if t1_val==None or t2_val==None:
                     continue
 
+                # evaluate comparison on evaluated terms
                 runScript = False
                 if line['cmp'] == '<':
                     runScript = t1_val < t2_val

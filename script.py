@@ -158,3 +158,8 @@ class Script:
 
         return returnEvents
 
+    def __str__(self):
+        rv = ""
+        rv += "vars: "+str(self.var)+"\n"
+        rv += "script: "+str(self.script)+"\n"
+        return rv

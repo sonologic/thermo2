@@ -1,11 +1,23 @@
+import sys
 import unittest
 from time import time
+
+if __name__ == "__main__":
+    sys.path.insert(0, "../")
+
 from timer import Timer
 
 class TimerTest(unittest.TestCase):
 
     def setUp(self):
         self.timer=Timer(1)
+
+    def test_parse_timer(self):
+        timer = Timer('''interval: 10
+                         event: test_timer_event''')
+
+        self.assertEqual(timer.period, 10)
+        self.assertEqual(timer.event, 'test_timer_event')
 
     def test_timer_poll(self):
         reset_time = self.timer.reset()

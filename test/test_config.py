@@ -42,5 +42,19 @@ class ConfigTest(unittest.TestCase):
                             }
                         }''')
 
+    def test_parser_timer(self):
+        config = Config('''timer t1 {
+                               interval: 2
+                               event: timerevent
+                           }''')
+
+        print config
+
+        self.assertEqual('t1' in config.timers.keys(), True)
+        self.assertEqual(config.timers['t1'].label, 't1')
+        self.assertEqual(config.timers['t1'].event, 'timerevent')
+        self.assertEqual(config.timers['t1'].period, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

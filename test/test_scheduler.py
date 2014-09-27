@@ -1,6 +1,12 @@
 import unittest
-from scheduler import Scheduler
 from time import time
+import sys
+
+if __name__ == "__main__":
+    sys.path.insert(0, "../")
+
+from scheduler import Scheduler
+from config import Config
 from event_listener import EventListener
 from event import Event
 from timer import Timer
@@ -124,6 +130,40 @@ class SchedulerTest(unittest.TestCase):
 
         self.assertEqual(count,4)
         self.assertEqual(listener.count,4)
+
+    def test_scheduler_bind_config(self):
+        scheduler = Scheduler()
+
+        config = Config('''
+                        timer test_timer {
+                            interval: 2
+                            event: test_timer_event
+                        }
+
+                        process demo_add {
+                            trigger: op1_value, op2_value
+                            script: {
+                                sum := op1_value + op2_value
+                                emit sum_value(sum)
+                            }
+                        }
+
+                        process gen_op1 {
+                            trigger: test_timer_event
+                            script: {
+                                emit op1_value(2)
+                            }
+                        }
+
+                        process gen_op2 {
+                            trigger: test_timer_event
+                            script: {
+                                emit op2_value(3)
+                            }
+                        }''')
+
+        scheduler.bind(config)
+
 
 if __name__ == "__main__":
     unittest.main()

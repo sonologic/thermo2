@@ -31,7 +31,7 @@ class SchedulerTest(unittest.TestCase):
         scheduler = Scheduler()
         
         t = time()
-        while time() < t+2:
+        while time() < t+1:
             self.assertEqual(scheduler.schedule(),'idle')
      
         event = Event(time(), 'test_event')

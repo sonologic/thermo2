@@ -64,3 +64,11 @@ class Timer:
         self.next_trigger = self.next_trigger + self.period
 
         return lateness        
+
+    def __str__(self):
+        rv  = "event: %s\n" % self.event
+        rv  = "interval: %d\n" % self.period
+        rv += "next_trigger: %d\n" % self.next_trigger
+        rv += "last_trigger: %d\n" % self.last_trigger
+
+        return rv

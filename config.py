@@ -3,6 +3,7 @@ from line_reader import LineReader
 from parser_constants import *
 from script import *
 from process import *
+from timer import *
 from myexceptions import *
 
 class ConfigParseError(ParserError):
@@ -11,6 +12,7 @@ class ConfigParseError(ParserError):
 class Config:
     def __init__(self,str):
         self.processes = {}
+        self.timers = {}
         self.parse(str)
 
     def _parseScript(self,linereader):
@@ -24,6 +26,23 @@ class Config:
             scriptString += line + "\n"
 
         raise ConfigParseError(lineno,"premature end of file while parsing script")
+
+    def _parseTimer(self,linereader,label):
+        timerString = ""
+
+        while not linereader.eof():
+            (lineno, line) = linereader.consume()
+
+            # closing braces
+            if re.match('^\s*}\s*$', line):
+                timer = Timer(timerString)
+                timer.label = label
+                return timer
+
+            timerString += line + "\n"
+
+        raise ConfigParseError(lineno,"premature end of file while parsing timer")
+            
         
     def _parseProcess(self,linereader,label):
 
@@ -70,6 +89,16 @@ class Config:
                     raise ConfigParseError(lineno, "duplicate process label %s" % label)
                 process = self._parseProcess(linereader, label)
                 self.processes[label]=process
+                continue
+
+            # timer
+            match = re.match('^\s*timer\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
+            if match:
+                label=match.group(1)
+                if label in self.timers.keys():
+                    raise ConfigParseError(lineno, "duplicate timer label %s" % label)
+                timer = self._parseTimer(linereader, label)
+                self.timers[label]=timer
                 continue
 
             raise ConfigParseError(lineno,"unable to parse line: %s" % line)

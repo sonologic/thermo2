@@ -4,6 +4,11 @@
 # value * means to send this event always
 #
 
+timer test_timer {
+    interval: 10s
+    event: test_timer_event
+}
+
 sensor temp1 {
     interval: 10s
     uri: 1wire://0012003a.../temp

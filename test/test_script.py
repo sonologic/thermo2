@@ -59,6 +59,23 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(e3.getLabel(),'sum_value')
         self.assertEqual(e3.getValue(),5)
 
+    def test_eval_emit_int(self):
+        """Test Script evaluation of emit of integer"""
+        script = Script('''emit test(23)''')
+
+        rv = script.eval()
+
+        self.assertEqual(isinstance(rv,list),True)
+        self.assertEqual(len(rv),1)
+
+        e = rv[0]
+
+        self.assertEqual(isinstance(e,SensorEvent),True)
+        self.assertEqual(e.getLabel(),'test')
+        self.assertEqual(e.getValue(),23)
+
+
+
     def test_eval_if_pass(self):
         """Test Script if evaluation for pass"""
         script = Script('''if value < 10 then

@@ -105,6 +105,14 @@ class Config:
 
     def __str__(self):
         rv  = "config {\n"
+        for label in self.timers:
+            timer = self.timers[label]
+            rv += " timer "+timer.label+" {\n"
+            p = str(timer)
+            ip = "\n".join((4 * " ") + i for i in p.splitlines())
+            rv += ip+"\n"
+            rv += "  }\n"
+
         for label in self.processes:
             process = self.processes[label]
             rv += "  process "+(process.label)+" {\n"

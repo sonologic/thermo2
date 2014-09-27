@@ -2,6 +2,7 @@ from event_listener import *
 
 class Process(EventListener):
     def __init__(self):
+        EventListener.__init__(self)
         self.label=None
         self.script=None
 

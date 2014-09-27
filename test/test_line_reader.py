@@ -11,6 +11,7 @@ from line_reader import *
 class LineReaderTest(unittest.TestCase):
 
     def test_line_reader(self):
+        """Basic sanity check of LineReader"""
         r = LineReader('''line1
                           line2
                           line3''')

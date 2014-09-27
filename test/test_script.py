@@ -12,15 +12,18 @@ from script import *
 class ScriptTest(unittest.TestCase):
 
     def test_parser(self):
+        """Test Script parser"""
         script = Script('''sum := op1_value + op2_value
                            emit sum_value(sum)''')
 
     def test_parser_nl_ending(self):
+        """Test Script parser with newline ending"""
         script = Script('''sum := op1_value + op2_value
                            emit sum_value(sum)
                         ''')
 
     def test_parser_fail(self):
+        """Test Script parser failure"""
         try:
             script = Script('''foo''')
         except ScriptParseError:
@@ -29,11 +32,13 @@ class ScriptTest(unittest.TestCase):
             self.fail("Expected a ScriptParseError")
 
     def test_parser_if(self):
+        """Test Script parser for if construction"""
         script = Script('''if value < 10 then
                                emit small_value(value)
                            endif''')
 
     def test_eval(self):
+        """Test Script evaluation of assignment and emit"""
         script = Script('''sum := op1_value + op2_value
                            emit sum_value(sum)''')
 
@@ -55,6 +60,7 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(e3.getValue(),5)
 
     def test_eval_if_pass(self):
+        """Test Script if evaluation for pass"""
         script = Script('''if value < 10 then
                                emit small_value(value)
                            endif''')
@@ -71,6 +77,7 @@ class ScriptTest(unittest.TestCase):
 
 
     def test_eval_if_fail(self):
+        """Test Script if evaluation for fail"""
         script = Script('''if value > 10 then
                                emit large_value(value)
                            endif''')

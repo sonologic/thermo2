@@ -43,9 +43,9 @@ class Script:
                 continue
             
             # emit SensorEvent (with value)
-            match=re.match('^\s*emit\s*('+ParserConstants.RE_IDENTIFIER+')\s*\(\s*('+ParserConstants.RE_IDENTIFIER+')\s*\)\s*$', line)
+            match=re.match('^\s*emit\s*('+ParserConstants.RE_IDENTIFIER+')\s*\(\s*('+ParserConstants.RE_TERM+')\s*\)\s*$', line)
             if match:
-                script.append( { 'line':lineno, 'action':'emit', 'event':match.group(1), 'arg':match.group(2) } )
+                script.append( { 'line':lineno, 'action':'emit', 'event':match.group(1), 'arg':self._parseTerm(match.group(2)) } )
                 continue
 
             if re.match('^\s*$',line):
@@ -122,8 +122,9 @@ class Script:
             if line['action']=='emit':
                 if 'arg' in line.keys():
                     # SensorEvent
-                    if self._getVar(line['arg'])!=None:
-                        e = SensorEvent(time(), line['event'], self._getVar(line['arg']))
+                    value = self._evalTerm(line['arg'])
+                    if value != None:
+                        e = SensorEvent(time(), line['event'], value)
                         returnEvents.append(e)
                 else:
                     # Event

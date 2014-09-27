@@ -1,10 +1,48 @@
 from time import time
+import re
+
+from line_reader import LineReader
+from parser_constants import *
+from myexceptions import *
+
+class TimerParserError(ParserError):
+    pass
 
 class Timer:
-    def __init__(self,period):
-        self.period = period
+    def __init__(self,initval,event=None):
+        self.event=event
+        self.period=None
+        if isinstance(initval, str):
+            self._parse(initval)
+        else:
+            self.period = initval
         self.last_trigger = time()
-        self.next_trigger = self.last_trigger + period
+        self.next_trigger = self.last_trigger + self.period
+
+    def _parse(self,str):
+        linereader = LineReader(str)
+        while not linereader.eof():
+            (lineno, line) = linereader.consume()
+
+            # period
+            match = re.match('^\s*interval:\s*('+ParserConstants.RE_FLOAT+')\s*$', line)
+            if match:
+                self.period=float(match.group(1))
+                continue
+
+            # event
+            match = re.match('^\s*event:\s*('+ParserConstants.RE_IDENTIFIER+')\s*$', line)
+            if match:
+                self.event=match.group(1)
+                continue
+
+            # empty line
+            if re.match('^\s*$', line):
+                continue
+
+            raise TimerParserError(lineno, "unable to parse line: %s" % line)
+        if self.event == None or self.period == None:
+            raise TimerParserError(-1, "event or period not set")
 
     def getPeriod(self):
         return self.period

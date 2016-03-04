@@ -54,13 +54,17 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(config.timers['t1'].period, 2)
 
     def test_parser_sensor(self):
-        config = Config('''sensor {
-                               event: test_sensor
-                               json: {
-                                   url: "http://www.koenmartens.nl/setting.json"
-                               }
+        config = Config('''sensor json test_sensor test_trigger {
+                               url: "http://www.koenmartens.nl/setting.json"
                            }''')
-        self.assertEqual(True,False)
+
+    def test_parser_comment(self):
+        config = Config('''# foo bar
+                            # baz boo''')
+
+        self.assertEqual(len(config.processes),0)
+        self.assertEqual(len(config.timers),0)
+        self.assertEqual(len(config.sensors),0)
 
 if __name__ == "__main__":
     unittest.main()

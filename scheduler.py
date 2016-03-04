@@ -1,6 +1,7 @@
 from timer import Timer
 from event import Event
 from time import time
+from config import Config
 
 class Scheduler:
     def __init__(self):
@@ -80,3 +81,15 @@ class Scheduler:
             if not event in self.listeners.keys():
                 self.listeners[event] = []
         self.listeners[event].append(listener)
+
+    def bind(self, config):
+        if type(config)!=type(Config('')):
+            raise TypeError('binding with something not a config')
+
+        for timer in config.timers:
+            self.add_timer(config.timers[timer].period, config.timers[timer].event)
+
+        for process in config.processes:
+            self.add_listener(config.processes[process])
+        
+        

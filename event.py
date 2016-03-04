@@ -9,3 +9,5 @@ class Event:
     def getLabel(self):
         return self.label
 
+    def __repr__(self):
+        return "Event["+str(self.label)+",t="+str(self.t)+"]"

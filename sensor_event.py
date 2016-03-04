@@ -8,4 +8,6 @@ class SensorEvent(Event):
 
     def getValue(self):
         return self.value
- 
+
+    def __repr__(self):
+        return "SensorEvent["+str(self.label)+",t="+str(self.t)+",value="+str(self.value)+"]" 

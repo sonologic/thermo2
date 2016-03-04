@@ -1,5 +1,5 @@
 import unittest
-from time import time
+from time import time, sleep
 import sys
 
 if __name__ == "__main__":
@@ -39,6 +39,7 @@ class SchedulerTest(unittest.TestCase):
         t = time()
         while time() < t+1:
             self.assertEqual(scheduler.schedule(),'idle')
+            sleep(0.05)
      
         event = Event(time(), 'test_event')
         self.assertEqual(scheduler.schedule([event]),'test_event')
@@ -63,12 +64,14 @@ class SchedulerTest(unittest.TestCase):
         self.scheduler.add_timer(delay,'test_timer')
         while time() < startTime+delay-error:
             self.assertEqual(self.scheduler.schedule(),'idle')
+            sleep(error/10)
 
         event_count = 0
 
         while time() < startTime+delay+error:
             if(self.scheduler.schedule()=='test_timer'):
                 event_count = event_count + 1
+            sleep(error/10)
 
         self.assertEqual(event_count,1)
 
@@ -127,6 +130,7 @@ class SchedulerTest(unittest.TestCase):
         while time() < start+1.05:
             if scheduler.schedule() == 'test_event':
                 count = count + 1
+            sleep(0.05)
 
         self.assertEqual(count,4)
         self.assertEqual(listener.count,4)

@@ -1,6 +1,6 @@
 import sys
 import unittest
-from time import time
+from time import time, sleep
 
 if __name__ == "__main__":
     sys.path.insert(0, "../")
@@ -29,6 +29,7 @@ class TimerTest(unittest.TestCase):
             if not poll == None:
                 if round(poll) == 0:
                     count = count + 1
+            sleep(0.01)
         self.assertEqual(count,1)
 
     def test_timer_poll_count(self):
@@ -37,6 +38,7 @@ class TimerTest(unittest.TestCase):
         while(time() < reset_time + 3.1):
             if self.timer.poll() != None:
                 count = count + 1
+            sleep(0.05)
         self.assertEqual(count,3)
 
 if __name__ == "__main__":

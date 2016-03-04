@@ -19,6 +19,7 @@ from test_script_expression import ScriptExpressionTest
 from test_line_reader import LineReaderTest
 from test_process import ProcessTest
 from test_myexceptions import MyexceptionsTest
+from test_config import ConfigTest
 
 if __name__ == "__main__":
 
@@ -28,6 +29,7 @@ if __name__ == "__main__":
         suite.append(unittest.TestLoader().loadTestsFromTestCase(LineReaderTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))
+        suite.append(unittest.TestLoader().loadTestsFromTestCase(ConfigTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(TimerTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventTest))
         suite.append(unittest.TestLoader().loadTestsFromTestCase(EventListenerTest))

@@ -9,7 +9,7 @@ from myexceptions import *
 class ConfigParseError(ParserError):
     pass
 
-class Config:
+class Config(object):
     def __init__(self,str):
         self.processes = {}
         self.timers = {}

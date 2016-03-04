@@ -8,6 +8,7 @@ class Scheduler:
         self.timers={}
         self.listeners={}
         self.events=[]
+        self.lastEvent=None
 
     def schedule(self, events=None):
         """Invoke scheduler.
@@ -65,9 +66,11 @@ class Scheduler:
             self.events = self.events[1:]
             
             # and return the label of the processed event
+            self.lastEvent = event.getLabel()
             return event.getLabel()
                    
         # if no events were to be processed, return idle state 
+        self.lastEvent = 'idle'
         return 'idle'
 
     def add_timer(self,period,label):
@@ -80,7 +83,7 @@ class Scheduler:
                 raise TypeError('element of listener event array is not string')
             if not event in self.listeners.keys():
                 self.listeners[event] = []
-        self.listeners[event].append(listener)
+            self.listeners[event].append(listener)
 
     def bind(self, config):
         if type(config)!=type(Config('')):
@@ -91,5 +94,4 @@ class Scheduler:
 
         for process in config.processes:
             self.add_listener(config.processes[process])
-        
-        
+      

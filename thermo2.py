@@ -8,19 +8,23 @@ class Thermo2:
         self.scheduler.bind(config)
         self.idle = False
         self.tick = 0
+        self.verbose = False
 
     def run(self):
         state = self.scheduler.schedule()
         if type(state)==type(""):
             if state == 'idle':
                 if self.idle == False:
-                    #print str(self.tick) + ": idle"
+                    if self.verbose:
+                        print str(self.tick) + ": idle"
                     self.idle = True
             else:
-                #print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
+                if self.verbose:
+                    print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
                 self.idle = False
         else:
-            #print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
+            if self.verbose:
+                print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
             self.idle = False
 
         self.tick+=1;

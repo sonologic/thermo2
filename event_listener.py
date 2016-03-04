@@ -1,4 +1,4 @@
-class EventListener:
+class EventListener(object):
     """An EventListener can be registered with the scheduler, keyed on
     event label.
 

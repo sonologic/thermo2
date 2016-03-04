@@ -5,6 +5,8 @@ from script import *
 from process import *
 from timer import *
 from myexceptions import *
+from sensor import Sensor
+from sensor_json import JsonSensor
 
 class ConfigParseError(ParserError):
     pass
@@ -13,6 +15,7 @@ class Config(object):
     def __init__(self,str):
         self.processes = {}
         self.timers = {}
+        self.sensors = {}
         self.parse(str)
 
     def _parseScript(self,linereader):
@@ -42,6 +45,25 @@ class Config(object):
             timerString += line + "\n"
 
         raise ConfigParseError(lineno,"premature end of file while parsing timer")
+
+    def _parseSensor(self,linereader,sensortype,label,trigger):
+        sensorString = ""
+
+        while not linereader.eof():
+            (lineno, line) = linereader.consume()
+
+            # closing braces
+            if re.match('^\s*}\s*$', line):
+                if sensortype=='json':
+                    sensor = JsonSensor(label,trigger)
+                        #createFromText(sensorString)
+                    return sensor
+                else:
+                    raise ConfigParseError(lineno,"invalid sensor type")
+
+            sensorString += line + "\n"
+
+        raise ConfigParseError(lineno,"premature end of file while parsing sensor")
             
         
     def _parseProcess(self,linereader,label):
@@ -81,6 +103,10 @@ class Config(object):
             if re.match('^\s*$', line):
                 continue
 
+            # comments
+            if re.match('^\s*#', line):
+                continue
+
             # process
             match = re.match('^\s*process\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
             if match:
@@ -99,6 +125,18 @@ class Config(object):
                     raise ConfigParseError(lineno, "duplicate timer label %s" % label)
                 timer = self._parseTimer(linereader, label)
                 self.timers[label]=timer
+                continue
+
+            # sensor
+            match = re.match('^\s*sensor\s*('+ParserConstants.RE_IDENTIFIER+')\s*('+ParserConstants.RE_IDENTIFIER+')\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
+            if match:
+                trigger=match.group(3)
+                label=match.group(2)
+                sensortype=match.group(1)
+                if label in self.sensors.keys():
+                    raise ConfigParseError(lineno, "duplicate sensor label %s" % label)
+                sensor = self._parseSensor(linereader, sensortype, label, trigger) 
+                self.sensors[label]=sensor
                 continue
 
             raise ConfigParseError(lineno,"unable to parse line: %s" % line)

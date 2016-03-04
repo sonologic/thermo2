@@ -1,9 +1,10 @@
 from time import time
 from event_listener import EventListener
 from sensor_event import SensorEvent
+import re
 
 class Sensor(EventListener):
-
+        
     def __init__(self,event,trigger):
         EventListener.__init__(self)
         self.lastValue = None

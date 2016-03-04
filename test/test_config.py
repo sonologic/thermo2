@@ -48,13 +48,19 @@ class ConfigTest(unittest.TestCase):
                                event: timerevent
                            }''')
 
-        print config
-
         self.assertEqual('t1' in config.timers.keys(), True)
         self.assertEqual(config.timers['t1'].label, 't1')
         self.assertEqual(config.timers['t1'].event, 'timerevent')
         self.assertEqual(config.timers['t1'].period, 2)
 
+    def test_parser_sensor(self):
+        config = Config('''sensor {
+                               event: test_sensor
+                               json: {
+                                   url: "http://www.koenmartens.nl/setting.json"
+                               }
+                           }''')
+        self.assertEqual(True,False)
 
 if __name__ == "__main__":
     unittest.main()

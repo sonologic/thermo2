@@ -57,6 +57,15 @@ class ConfigTest(unittest.TestCase):
         config = Config('''sensor json test_sensor test_trigger {
                                url: "http://www.koenmartens.nl/setting.json"
                            }''')
+        self.assertEqual(len(config.sensors),1)
+
+     def test_parser_sensor_DS18B20(self):
+        config = Config('''sensor DS18B20 {
+                                event: sensor_event
+                                trigger: sensor_trigger
+                                id: 28-0000045b3ed5
+                           }''')
+        self.assertEqual(len(config.sensors),1)
 
     def test_parser_comment(self):
         config = Config('''# foo bar

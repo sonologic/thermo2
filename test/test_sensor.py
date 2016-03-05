@@ -6,7 +6,9 @@ from sensor import Sensor
 class SensorTest(unittest.TestCase):
 
     def test_sensor(self):
-        sensor = Sensor('test_sensor','test_sensor_event')
+        sensor = Sensor()
+        sensor.label='test_sensor'
+        sensor.addEvent('test_sensor_event')
         sensor.value = False
 
         sensor_event = Event(time(),'test_sensor_event')

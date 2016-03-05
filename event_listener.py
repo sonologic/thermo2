@@ -1,3 +1,5 @@
+import logging
+
 class EventListener(object):
     """An EventListener can be registered with the scheduler, keyed on
     event label.
@@ -9,6 +11,7 @@ class EventListener(object):
 
     def __init__(self):
         self.events = []
+        self.logger = logging.getLogger('thermo2.'+__name__)
 
     def addEvent(self,event):
         """Add an event label to the sensitivity list.

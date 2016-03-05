@@ -94,4 +94,6 @@ class Scheduler:
 
         for process in config.processes:
             self.add_listener(config.processes[process])
-      
+     
+        for sensor in config.sensors:
+            self.add_listener(config.sensors[sensor]) 

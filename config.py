@@ -48,6 +48,7 @@ class Config(object):
 
     def _parseSensor(self,linereader,sensortype,label,trigger):
         sensorString = ""
+        args={}
 
         while not linereader.eof():
             (lineno, line) = linereader.consume()
@@ -56,10 +57,16 @@ class Config(object):
             if re.match('^\s*}\s*$', line):
                 if sensortype=='json':
                     sensor = JsonSensor(label,trigger)
+                    for arg in args:
+                        sensor.__dict__[arg] = args[arg]
                         #createFromText(sensorString)
                     return sensor
                 else:
                     raise ConfigParseError(lineno,"invalid sensor type")
+            else:
+                m = re.match('^\s*('+ParserConstants.RE_IDENTIFIER+')\s*:\s*(.*)$', line)
+                if m!=None:
+                    args[m.group(1)]=m.group(2)
 
             sensorString += line + "\n"
 

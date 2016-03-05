@@ -39,6 +39,7 @@ class Thermo2Test(unittest.TestCase):
 
 
     def test_thermo2_run(self):
+        """Thermo2 test-runs"""
         for i in range(16):
             #self.assertEqual(self.thermo2.run(), 0)
             ec = self.thermo2.run()

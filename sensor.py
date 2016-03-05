@@ -7,6 +7,7 @@ class Sensor(EventListener):
         
     def __init__(self,event,trigger):
         EventListener.__init__(self)
+        self.value = None
         self.lastValue = None
         self.label = event
         self.trigger = trigger
@@ -14,10 +15,11 @@ class Sensor(EventListener):
 
     def event(self,event):
         if event.getLabel()==self.trigger:
+            self.getValue()
             if self.value != self.lastValue:
                 self.lastValue = self.value
                 return [event, SensorEvent(time(), self.label, self.value)]
         return [event]
 
-    def sample(self):
+    def getValue(self):
         pass

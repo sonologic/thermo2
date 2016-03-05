@@ -1,5 +1,6 @@
 from config import Config
 from scheduler import Scheduler
+import logging
 
 class Thermo2:
 
@@ -9,22 +10,20 @@ class Thermo2:
         self.idle = False
         self.tick = 0
         self.verbose = False
+        self.logger = logging.getLogger('thermo2.'+__name__)
 
     def run(self):
         state = self.scheduler.schedule()
         if type(state)==type(""):
             if state == 'idle':
                 if self.idle == False:
-                    if self.verbose:
-                        print str(self.tick) + ": idle"
+                    self.logger.info(str(self.tick) + ": idle")
                     self.idle = True
             else:
-                if self.verbose:
-                    print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
+                self.logger.info(str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events))
                 self.idle = False
         else:
-            if self.verbose:
-                print str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events)
+            self.logger.info(str(self.tick) + ": " + str(state) + ", queue: " + str(self.scheduler.events))
             self.idle = False
 
         self.tick+=1;

@@ -30,26 +30,45 @@ if __name__ == "__main__":
         logger.setLevel(logging.DEBUG)
         logger.addHandler(LogHandler())
 
-        suite = []
+        suites = unittest.TestSuite()
 
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(MyexceptionsTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(LineReaderTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(TimerTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(EventTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(EventListenerTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(EventProcessorTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(EventProcessorDelayTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorEventTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(SensorTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(JsonSensorTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(ScriptExpressionTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(ProcessTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(ConfigTest))
-        suite.append(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
+        suite = unittest.TestSuite()
 
-        suites
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(MyexceptionsTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(LineReaderTest))
 
-        unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suite))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventListenerTest))
+
+        suites.addTest(suite)
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(TimerTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventProcessorTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventProcessorDelayTest))
+
+        suites.addTest(suite)
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(SensorEventTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(SensorTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(JsonSensorTest))
+
+        suites.addTest(suite)
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ScriptTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ScriptExpressionTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ProcessTest))
+
+        suites.addTest(suite)
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ConfigTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
+
+        suites.addTest(suite)
+
+        unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suites))
 

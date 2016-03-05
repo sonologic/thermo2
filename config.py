@@ -158,6 +158,13 @@ class Config(object):
             ip = "\n".join((4 * " ") + i for i in p.splitlines())
             rv += ip+"\n"
             rv += "  }\n"
+
+        for label in self.sensors:
+            sensor = self.sensors[label]
+            rv += "  sensor " + sensor.__class__.__name__ + " " + label + " " + sensor.trigger + " {\n"
+            rv += "    url: " + str(sensor.url)+"\n";
+            rv += "  }\n"
+
         rv += "}"
 
         return rv

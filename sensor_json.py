@@ -10,10 +10,11 @@ class JsonSensor(Sensor):
         try:
             response = requests.get(self.url)
         except requests.exceptions.ConnectionError as e:
-            print str(e)
+            self.logger.error(str(e))
             return
 
         if response.status_code == 200:
+            self.logger.debug(response.text)
             data = json.loads(response.text)
             if 'value' in data:
                 self.value = data['value']

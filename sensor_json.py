@@ -6,9 +6,6 @@ from time import time
 
 class JsonSensor(Sensor):
 
-    def __init__(self,event,trigger):
-        Sensor.__init__(self,event,trigger)
-
     def getValue(self):
         try:
             response = requests.get(self.url)

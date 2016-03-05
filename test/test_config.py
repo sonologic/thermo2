@@ -53,15 +53,17 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(config.timers['t1'].event, 'timerevent')
         self.assertEqual(config.timers['t1'].period, 2)
 
-    def test_parser_sensor(self):
-        config = Config('''sensor json test_sensor test_trigger {
+    def test_parser_sensor_json(self):
+        config = Config('''sensor json {
+                               label: test_sensor
+                               trigger: test_trigger
                                url: "http://www.koenmartens.nl/setting.json"
                            }''')
         self.assertEqual(len(config.sensors),1)
 
-     def test_parser_sensor_DS18B20(self):
+    def test_parser_sensor_DS18B20(self):
         config = Config('''sensor DS18B20 {
-                                event: sensor_event
+                                label: sensor_event
                                 trigger: sensor_trigger
                                 id: 28-0000045b3ed5
                            }''')

@@ -7,6 +7,7 @@ from timer import *
 from myexceptions import *
 from sensor import Sensor
 from sensor_json import JsonSensor
+from sensor_DS18B20 import DS18B20Sensor
 
 class ConfigParseError(ParserError):
     pass
@@ -46,7 +47,7 @@ class Config(object):
 
         raise ConfigParseError(lineno,"premature end of file while parsing timer")
 
-    def _parseSensor(self,linereader,sensortype,label,trigger):
+    def _parseSensor(self,linereader,sensortype):
         sensorString = ""
         args={}
 
@@ -55,14 +56,25 @@ class Config(object):
 
             # closing braces
             if re.match('^\s*}\s*$', line):
+                sensor=None
+
                 if sensortype=='json':
-                    sensor = JsonSensor(label,trigger)
-                    for arg in args:
-                        sensor.__dict__[arg] = args[arg]
-                        #createFromText(sensorString)
-                    return sensor
-                else:
+                    sensor = JsonSensor()
+                elif sensortype=='DS18B20':
+                    sensor = DS18B20Sensor()
+
+                if sensor==None:
                     raise ConfigParseError(lineno,"invalid sensor type")
+
+                for arg in args:
+                    sensor.__dict__[arg] = args[arg]
+                    if arg=='trigger':
+                        sensor.addEvent(args[arg])
+
+                if not 'label' in sensor.__dict__:
+                    raise ConfigParseError(lineno,"sensor has no label")
+
+                return sensor
             else:
                 m = re.match('^\s*('+ParserConstants.RE_IDENTIFIER+')\s*:\s*(.*)$', line)
                 if m!=None:
@@ -135,15 +147,14 @@ class Config(object):
                 continue
 
             # sensor
-            match = re.match('^\s*sensor\s*('+ParserConstants.RE_IDENTIFIER+')\s*('+ParserConstants.RE_IDENTIFIER+')\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
+            match = re.match('^\s*sensor\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
             if match:
-                trigger=match.group(3)
-                label=match.group(2)
                 sensortype=match.group(1)
-                if label in self.sensors.keys():
-                    raise ConfigParseError(lineno, "duplicate sensor label %s" % label)
-                sensor = self._parseSensor(linereader, sensortype, label, trigger) 
-                self.sensors[label]=sensor
+                #if label in self.sensors.keys():
+                #    raise ConfigParseError(lineno, "duplicate sensor label %s" % label)
+                sensor = self._parseSensor(linereader, sensortype) 
+                # todo: verify that label is set
+                self.sensors[sensor.label]=sensor
                 continue
 
             raise ConfigParseError(lineno,"unable to parse line: %s" % line)

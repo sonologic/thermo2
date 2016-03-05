@@ -5,16 +5,13 @@ import re
 
 class Sensor(EventListener):
         
-    def __init__(self,event,trigger):
+    def __init__(self):
         EventListener.__init__(self)
         self.value = None
         self.lastValue = None
-        self.label = event
-        self.trigger = trigger
-        self.addEvent(trigger)
 
     def event(self,event):
-        if event.getLabel()==self.trigger:
+        if event.getLabel() in self.events:
             self.getValue()
             if self.value != self.lastValue:
                 self.lastValue = self.value

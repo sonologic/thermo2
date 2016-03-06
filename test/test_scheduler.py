@@ -42,7 +42,7 @@ class SchedulerTest(unittest.TestCase):
             sleep(0.05)
      
         event = Event(time(), 'test_event')
-        self.assertEqual(scheduler.schedule([event]),'test_event')
+        self.assertEqual(scheduler.schedule([event]),event)
 
     def test_scheduler_add_timer(self):
         self.scheduler = Scheduler()
@@ -69,7 +69,9 @@ class SchedulerTest(unittest.TestCase):
         event_count = 0
 
         while time() < startTime+delay+error:
-            if(self.scheduler.schedule()=='test_timer'):
+            event = self.scheduler.schedule()
+
+            if event!='idle' and event.label=='test_timer':
                 event_count = event_count + 1
             sleep(error/10)
 
@@ -111,7 +113,7 @@ class SchedulerTest(unittest.TestCase):
 
         event = Event(time(),'test_event')
 
-        self.assertEqual(scheduler.schedule([event]),'test_event')
+        self.assertEqual(scheduler.schedule([event]),event)
 
         self.assertEqual(listener.count,1)
 
@@ -128,7 +130,9 @@ class SchedulerTest(unittest.TestCase):
         count = 0
 
         while time() < start+1.05:
-            if scheduler.schedule() == 'test_event':
+            event = scheduler.schedule()
+    
+            if event!='idle' and event.label == 'test_event':
                 count = count + 1
             sleep(0.05)
 

@@ -39,7 +39,7 @@ class JsonSensorTest(unittest.TestCase):
         self.serverProcess.join()
 
     def test_json_sensor(self):
-        """JsonSensor"""
+        """JsonSensor with local httpd"""
         sensor = JsonSensor()
         sensor.url='http://localhost:53901/setting.json'
         sensor.label='test_sensor'
@@ -68,6 +68,24 @@ class JsonSensorTest(unittest.TestCase):
         events = sensor.event(sensor_event)
         self.assertEqual(len(events),1)
         self.assertEqual(events[0].getLabel(),'test_sensor_event')
+
+    def test_json_sensor_no_json(self):
+        """JsonSensor with www.bbc.co.uk"""
+        sensor = JsonSensor()
+        sensor.url='http://chasmcity.sonologic.nl/'
+        sensor.label='test_sensor'
+        sensor.addEvent('test_sensor_event')
+        sensor.value = False
+
+        sensor_event = Event(time(),'test_sensor_event')
+      
+        events = sensor.event(sensor_event)
+
+        self.assertEqual(len(events),2)
+        self.assertEqual(events[0].getLabel(),'test_sensor_event')
+        self.assertEqual(events[1].getLabel(),'test_sensor')
+        self.assertEqual(events[1].getValue(),False)
+
 
 if __name__ == "__main__":
     unittest.main()

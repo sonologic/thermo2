@@ -12,6 +12,8 @@ from test_scheduler import SchedulerTest
 from test_timer import TimerTest
 from test_event import EventTest
 from test_event_listener import EventListenerTest
+from test_actor import ActorTest
+from test_actor_post import PostActorTest
 from test_sensor_event import SensorEventTest
 from test_sensor import SensorTest
 from test_sensor_json import JsonSensorTest
@@ -39,6 +41,12 @@ if __name__ == "__main__":
 
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventTest))
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(EventListenerTest))
+
+        suites.addTest(suite)
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ActorTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(PostActorTest))
 
         suites.addTest(suite)
         suite = unittest.TestSuite()

@@ -67,7 +67,7 @@ class Scheduler:
             
             # and return the label of the processed event
             self.lastEvent = event.getLabel()
-            return event.getLabel()
+            return event
                    
         # if no events were to be processed, return idle state 
         self.lastEvent = 'idle'

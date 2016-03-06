@@ -180,7 +180,8 @@ class Config(object):
         for label in self.sensors:
             sensor = self.sensors[label]
             rv += "  sensor " + sensor.__class__.__name__ + " " + label + " " + sensor.trigger + " {\n"
-            rv += "    url: " + str(sensor.url)+"\n";
+	    for key in sensor.__dict__:
+            	rv += "    "+key+": " + str(sensor.__dict__[key])+"\n";
             rv += "  }\n"
 
         rv += "}"

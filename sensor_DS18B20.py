@@ -25,4 +25,3 @@ class DS18B20Sensor(Sensor):
     line = text.split("\n")[1]
     data = line.split(" ")[9]
     self.value = float(data[2:]) / 1000
-    return temp

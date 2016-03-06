@@ -62,8 +62,8 @@ class Script:
             if match:
                 subscript = self._parse(level+1,lines)
                 t1 = self._parseTerm(match.group(2))
-                t2 = self._parseTerm(match.group(6))
-                script.append( { 'line':lineno, 'action':'if', 'sub':subscript, 'cmp':match.group(5), \
+                t2 = self._parseTerm(match.group(7))
+                script.append( { 'line':lineno, 'action':'if', 'sub':subscript, 'cmp':match.group(6), \
                                  't1':t1, 't2':t2 } )
                 continue;
 

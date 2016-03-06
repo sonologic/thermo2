@@ -12,7 +12,6 @@ class Main(object):
         self.logger = logging.getLogger('')
         self.logger.setLevel(logging.WARNING)
         self.logger.addHandler(LogHandler())
-        self.logger.error("test")
 
     def main(self):
         self.parseArgs()
@@ -30,6 +29,8 @@ class Main(object):
             self.logger.setLevel(logging.DEBUG)
         elif args.verbose:
             self.logger.setLevel(logging.INFO)
+
+        self.logger.info("Thermo2 starting up")
 
         self.logger.debug("----[ arguments:")
         self.logger.debug(str(args))

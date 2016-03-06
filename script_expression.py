@@ -26,15 +26,19 @@ class ScriptExpression:
         match=re.match('^\s*('+ParserConstants.RE_TERM+')\s*('+ParserConstants.RE_MATH_OP+')\s*('+ParserConstants.RE_TERM+')\s*$',str)
         if match:
             self.term1 = match.group(1)
-            self.term2 = match.group(5)
-            self.oper = match.group(4)
-
+            self.term2 = match.group(6)
+            self.oper = match.group(5)
+    
             if re.match('^'+ParserConstants.RE_IDENTIFIER+'$',self.term1):
                 self.term1_type = 'identifier'
             if re.match('^'+ParserConstants.RE_IDENTIFIER+'$',self.term2):
                 self.term2_type = 'identifier'
+            if re.match('^'+ParserConstants.RE_FLOAT+'$',self.term1):
+                self.term1_type = 'float'
             if re.match('^'+ParserConstants.RE_INTEGER+'$',self.term1):
                 self.term1_type = 'int'
+            if re.match('^'+ParserConstants.RE_FLOAT+'$',self.term2):
+                self.term2_type = 'float'
             if re.match('^'+ParserConstants.RE_INTEGER+'$',self.term2):
                 self.term2_type = 'int'
 
@@ -51,6 +55,8 @@ class ScriptExpression:
         term1_val=None
         if self.term1_type=='int':
             term1_val = int(self.term1)
+        if self.term1_type=='float':
+            term1_val = float(self.term1)
         if self.term1_type=='identifier':
             if self.term1 in args.keys():
                 term1_val = args[self.term1]
@@ -58,6 +64,8 @@ class ScriptExpression:
         term2_val=None
         if self.term2_type=='int':
             term2_val = int(self.term2)
+        if self.term2_type=='float':
+            term2_val = float(self.term2)
         if self.term2_type=='identifier':
             if self.term2 in args.keys():
                 term2_val = args[self.term2]

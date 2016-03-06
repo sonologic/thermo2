@@ -18,10 +18,15 @@ class ScriptExpressionTest(unittest.TestCase):
     def test_parser_int_id(self):
         exp = ScriptExpression('743 + op1_value')
 
-    def test_parser_evaluate_lit_lit(self):
+    def test_parser_evaluate_lit_lit_int(self):
         exp = ScriptExpression('2 + 3')
         rv = exp.eval()
         self.assertEqual(rv, 5)
+        
+    def test_parser_evaluate_lit_lit_float(self):
+        exp = ScriptExpression('20.75 + 0.25')
+        rv = exp.eval()
+        self.assertEqual(rv, 21.0)
         
     def test_parser_evaluate_lit_id(self):
         exp = ScriptExpression('19 + foo_bar')

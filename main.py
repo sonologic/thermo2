@@ -5,7 +5,7 @@ from config import Config
 from thermo2 import Thermo2
 from time import sleep
 import logging
-from loghandler import LogHanlder
+from loghandler import LogHandler
 
 class Main(object):
     def __init__(self):

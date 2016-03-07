@@ -1,6 +1,8 @@
 import BaseHTTPServer
 import json
 import urlparse
+import re
+from parser_constants import ParserConstants
 
 class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
@@ -56,10 +58,21 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 self.send_error(500, "POST error")
                 return
 
-            value = post_data['value']
-            t = post_data['t']
+            value = post_data['value'][0]
+            t = post_data['t'][0]
 
-            self.server.scheduler.setValue(label, value, t)
+            if not re.match(ParserConstants.RE_FLOAT, t):
+                self.send_error(500, "POST error")
+                return
+
+            t = float(t)
+
+            if re.match(ParserConstants.RE_INTEGER, value):
+                value = int(value)
+            elif re.match(ParserConstants.RE_FLOAT, value):
+                value = float(value)
+
+            self.server.scheduler.setValue(label, int(value), t)
             self.server.scheduler.schedule()
 
             event = self.server.scheduler.getValue(label)
@@ -76,6 +89,11 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
 class Httpd(BaseHTTPServer.HTTPServer):
     def __init__(self, addr, scheduler):
+        if type(addr)==type(""):
+            split = addr.split(":")
+            if len(split)!=2:
+                raise Exception("invalid server address")
+            addr = (split[0], int(split[1]))
         self.scheduler = scheduler
         BaseHTTPServer.HTTPServer.__init__(self, addr, MyRequestHandler)
         

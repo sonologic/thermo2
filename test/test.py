@@ -9,6 +9,7 @@ sys.path.insert(0, "../")
 from loghandler import LogHandler
 from test_thermo2 import Thermo2Test
 from test_scheduler import SchedulerTest
+from test_scheduler_caching import CachingSchedulerTest
 from test_timer import TimerTest
 from test_event import EventTest
 from test_event_listener import EventListenerTest
@@ -73,6 +74,7 @@ if __name__ == "__main__":
         suite = unittest.TestSuite()
 
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(SchedulerTest))
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(CachingSchedulerTest))
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ConfigTest))
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
 

@@ -32,6 +32,9 @@ class Config(object):
         while not linereader.eof():
             (lineno, line) = linereader.consume()
 
+            if re.match('^\s*}\s*$', line):
+                return
+
             match = re.match('^\s*('+ParserConstants.RE_GLOBAL_VAR+')\s*:\s*(.*)\s*$', line)
             if match:
                 lastgroup = len(match.groups())

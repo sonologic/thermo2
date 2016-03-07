@@ -10,7 +10,11 @@ from config import *
 class ConfigTest(unittest.TestCase):
 
     def test_parser(self):
-        exp = Config('''process simple {
+        exp = Config('''global {
+                            logfile: foobar
+                        }
+
+                        process simple {
                         trigger: setting_value, sensor_value
                         script: {
                                 if setting_value > sensor_value then

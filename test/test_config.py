@@ -80,15 +80,18 @@ class ConfigTest(unittest.TestCase):
     def test_parser_global(self):
         config = Config('''global {
                                listen: 10.0.0.1:1234
+                               logfile: /var/log/thermo2.log
                            }
                         ''')
 
         self.assertEqual(config.listen, '10.0.0.1:1234')
+        self.assertEqual(config.logfile, '/var/log/thermo2.log')
 
     def test_parser_global_defaults(self):
         config = Config('')
 
         self.assertEqual(config.listen, '127.0.0.1:8822')
+        self.assertEqual(config.logfile, None)
 
 if __name__ == "__main__":
     unittest.main()

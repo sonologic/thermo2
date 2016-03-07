@@ -6,6 +6,7 @@ from thermo2 import Thermo2
 from time import sleep
 import logging
 from loghandler import LogHandler
+from httpd import Httpd
 
 class Main(object):
     def __init__(self):
@@ -42,9 +43,13 @@ class Main(object):
 
         delay = self.args.delay
 
+        httpd = Httpd(config.listen, thermo2.scheduler)
+        
+        httpd.timeout = delay
+
         while True:
             if thermo2.run():
-                sleep(delay)
+                httpd.handle_request()
 
     def parseArgs(self):
         parser = argparse.ArgumentParser(description='Thermo2 arguments')

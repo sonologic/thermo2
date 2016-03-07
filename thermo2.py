@@ -1,11 +1,11 @@
 from config import Config
-from scheduler import Scheduler
+from scheduler_caching import CachingScheduler
 import logging
 
 class Thermo2:
 
     def __init__(self, config):
-        self.scheduler = Scheduler()
+        self.scheduler = CachingScheduler()
         self.scheduler.bind(config)
         self.idle = False
         self.tick = 0

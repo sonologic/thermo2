@@ -3,7 +3,7 @@ from event import Event
 from time import time
 from config import Config
 
-class Scheduler:
+class Scheduler(object):
     def __init__(self):
         self.timers={}
         self.listeners={}

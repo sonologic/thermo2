@@ -77,5 +77,18 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(len(config.timers),0)
         self.assertEqual(len(config.sensors),0)
 
+    def test_parser_global(self):
+        config = Config('''global {
+                               listen: 10.0.0.1:1234
+                           }
+                        ''')
+
+        self.assertEqual(config.listen, '10.0.0.1:1234')
+
+    def test_parser_global_defaults(self):
+        config = Config('')
+
+        self.assertEqual(config.listen, '127.0.0.1:8822')
+
 if __name__ == "__main__":
     unittest.main()

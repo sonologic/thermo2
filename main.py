@@ -16,26 +16,17 @@ class Main(object):
     def main(self):
         self.parseArgs()
 
-    def parseArgs(self):
-        parser = argparse.ArgumentParser(description='Thermo2 arguments')
-        parser.add_argument("--config", nargs=1, help='config file', required=True)
-        parser.add_argument("--delay", nargs=1, help='delay in seconds (float)', default=0.5)
-        parser.add_argument("--verbose", help='be verbose', action='store_const', const=True, default=False)
-        parser.add_argument("--debug", help='be more verbose', action='store_const', const=True, default=False)
-
-        args = parser.parse_args()
-
-        if args.debug:
+        if self.args.debug:
             self.logger.setLevel(logging.DEBUG)
-        elif args.verbose:
+        elif self.args.verbose:
             self.logger.setLevel(logging.INFO)
 
         self.logger.info("Thermo2 starting up")
 
         self.logger.debug("----[ arguments:")
-        self.logger.debug(str(args))
+        self.logger.debug(str(self.args))
 
-        config_txt = file(args.config[0]).read()
+        config_txt = file(self.args.config[0]).read()
 
         self.logger.debug("----[ config text:")
         self.logger.debug(config_txt)
@@ -47,14 +38,22 @@ class Main(object):
 
         thermo2 = Thermo2(config)
 
-        thermo2.verbose = args.verbose
+        thermo2.verbose = self.args.verbose
 
-        delay = args.delay
+        delay = self.args.delay
 
         while True:
             if thermo2.run():
                 sleep(delay)
 
+    def parseArgs(self):
+        parser = argparse.ArgumentParser(description='Thermo2 arguments')
+        parser.add_argument("--config", nargs=1, help='config file', required=True)
+        parser.add_argument("--delay", nargs=1, help='delay in seconds (float)', default=0.5)
+        parser.add_argument("--verbose", help='be verbose', action='store_const', const=True, default=False)
+        parser.add_argument("--debug", help='be more verbose', action='store_const', const=True, default=False)
+
+        self.args = parser.parse_args()
 
 if __name__ == '__main__':
     main = Main()

@@ -73,7 +73,6 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 value = float(value)
 
             self.server.scheduler.setValue(label, int(value), t)
-            self.server.scheduler.schedule()
 
             event = self.server.scheduler.getValue(label)
 

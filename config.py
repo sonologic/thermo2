@@ -13,11 +13,32 @@ class ConfigParseError(ParserError):
     pass
 
 class Config(object):
+
     def __init__(self,str):
+        # defaults for global block variables
+        self.listen = '127.0.0.1:8822'
+        self.logfile = None
+
+        # internal data structures
         self.processes = {}
         self.timers = {}
         self.sensors = {}
+
+        # parse input
         self.parse(str)
+
+
+    def _parseGlobal(self,linereader):
+        while not linereader.eof():
+            (lineno, line) = linereader.consume()
+
+            match = re.match('^\s*('+ParserConstants.RE_GLOBAL_VAR+')\s*:\s*(.*)\s*$', line)
+            if match:
+                lastgroup = len(match.groups())
+                print "store " + match.group(1) + " = " + match.group(lastgroup)
+                self.__dict__[match.group(1)] = match.group(lastgroup)
+            else:
+                pass
 
     def _parseScript(self,linereader):
         scriptString = ""
@@ -124,6 +145,12 @@ class Config(object):
 
             # comments
             if re.match('^\s*#', line):
+                continue
+
+            # global
+            match = re.match('^\s*global\s*{\s*',line)
+            if match:
+                self._parseGlobal(linereader)
                 continue
 
             # process

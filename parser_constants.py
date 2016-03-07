@@ -6,3 +6,4 @@ class ParserConstants:
     RE_TERM         = '('+RE_IDENTIFIER+')|('+RE_INTEGER+')|('+RE_FLOAT+')'
     RE_COMPARE      = '<|>|==|!=|>=|<='
     RE_CONDITION    = '('+RE_TERM+')\s+('+RE_COMPARE+')\s+('+RE_TERM+')'
+    RE_GLOBAL_VAR   = '(listen)|(logfile)'

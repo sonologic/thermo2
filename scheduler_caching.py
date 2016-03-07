@@ -11,6 +11,10 @@ class CachingScheduler(Scheduler):
             return self.cache[label]
         return None
 
+    def setValue(self, label, value, t):
+        event = SensorEvent(t, label, value)
+        self.events += [event]
+
     def schedule(self, events=[]):
         event = Scheduler.schedule(self, events)
 

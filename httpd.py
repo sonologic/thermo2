@@ -61,15 +61,15 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             value = post_data['value'][0]
             t = post_data['t'][0]
 
-            if not re.match(ParserConstants.RE_FLOAT, t):
+            if not re.match('^'+ParserConstants.RE_FLOAT+'$', t):
                 self.send_error(500, "POST error")
                 return
 
             t = float(t)
 
-            if re.match(ParserConstants.RE_INTEGER, value):
+            if re.match('^'+ParserConstants.RE_INTEGER+'$', value):
                 value = int(value)
-            elif re.match(ParserConstants.RE_FLOAT, value):
+            elif re.match('^'+ParserConstants.RE_FLOAT+'$', value):
                 value = float(value)
 
             self.server.scheduler.setValue(label, int(value), t)

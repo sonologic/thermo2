@@ -38,7 +38,6 @@ class Config(object):
             match = re.match('^\s*('+ParserConstants.RE_GLOBAL_VAR+')\s*:\s*(.*)\s*$', line)
             if match:
                 lastgroup = len(match.groups())
-                print "store " + match.group(1) + " = " + match.group(lastgroup)
                 self.__dict__[match.group(1)] = match.group(lastgroup)
             else:
                 pass

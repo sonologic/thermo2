@@ -35,8 +35,6 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         path_elm = self.path.split('/')
         path_elm = path_elm[1:]
 
-        print "post " + str(path_elm)
-
         if len(path_elm)!=2:
             self.send_error(500, "Invalid path")
         else:

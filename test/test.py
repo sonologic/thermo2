@@ -26,6 +26,7 @@ from test_line_reader import LineReaderTest
 from test_process import ProcessTest
 from test_myexceptions import MyexceptionsTest
 from test_config import ConfigTest
+from test_httpd import HttpdTest
 
 if __name__ == "__main__":
 
@@ -77,6 +78,12 @@ if __name__ == "__main__":
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(CachingSchedulerTest))
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(ConfigTest))
         suite.addTest(unittest.TestLoader().loadTestsFromTestCase(Thermo2Test))
+
+        suites.addTest(suite)
+
+        suite = unittest.TestSuite()
+
+        suite.addTest(unittest.TestLoader().loadTestsFromTestCase(HttpdTest))
 
         suites.addTest(suite)
 

@@ -8,6 +8,7 @@ from myexceptions import *
 from sensor import Sensor
 from sensor_json import JsonSensor
 from sensor_DS18B20 import DS18B20Sensor
+from actor_post import PostActor
 
 class ConfigParseError(ParserError):
     pass
@@ -23,6 +24,7 @@ class Config(object):
         self.processes = {}
         self.timers = {}
         self.sensors = {}
+        self.actors = {}
 
         # parse input
         self.parse(str)
@@ -106,6 +108,38 @@ class Config(object):
             sensorString += line + "\n"
 
         raise ConfigParseError(lineno,"premature end of file while parsing sensor")
+
+    def _parseActor(self,linereader,actortype):
+        args={}
+
+        while not linereader.eof():
+            (lineno, line) = linereader.consume()
+
+            # closing braces
+            if re.match('^\s*}\s*$', line):
+                actor=None
+
+                if actortype=='post':
+                    actor = PostActor()
+
+                if actor==None:
+                    raise ConfigParseError(lineno,"invalid actor type")
+
+                for arg in args:
+                    actor.__dict__[arg] = args[arg]
+                    if arg=='trigger':
+                        actor.addEvent(args[arg])
+
+                if not 'label' in actor.__dict__:
+                    raise ConfigParseError(lineno,"actor has no label")
+
+                return actor
+            else:
+                m = re.match('^\s*('+ParserConstants.RE_IDENTIFIER+')\s*:\s*(.*)$', line)
+                if m!=None:
+                    args[m.group(1)]=m.group(2)
+
+        raise ConfigParseError(lineno,"premature end of file while parsing sensor")
             
         
     def _parseProcess(self,linereader,label):
@@ -184,6 +218,14 @@ class Config(object):
                 sensor = self._parseSensor(linereader, sensortype) 
                 # todo: verify that label is set
                 self.sensors[sensor.label]=sensor
+                continue
+
+            # actor
+            match = re.match('^\s*actor\s*('+ParserConstants.RE_IDENTIFIER+')\s*{\s*',line)
+            if match:
+                actortype=match.group(1)
+                actor = self._parseActor(linereader, actortype) 
+                self.actors[actor.label]=actor
                 continue
 
             raise ConfigParseError(lineno,"unable to parse line: %s" % line)

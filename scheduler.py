@@ -94,6 +94,10 @@ class Scheduler(object):
 
         for process in config.processes:
             self.add_listener(config.processes[process])
-     
+
         for sensor in config.sensors:
             self.add_listener(config.sensors[sensor]) 
+
+        for actor in config.actors:
+            self.add_listener(config.actors[actor]) 
+

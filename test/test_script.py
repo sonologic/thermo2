@@ -130,6 +130,19 @@ class ScriptTest(unittest.TestCase):
         self.assertEqual(isinstance(e,Event),True)
         self.assertEqual(e.getLabel(),'simple_event')
 
+    def test_eval_persist_state(self):
+        script = Script('''a := a + 1''')
+
+        script.var = { 'a' : 0 }
+
+        self.assertEqual(script.eval(), [])
+        self.assertEqual(script.var['a'], 1)
+
+        self.assertEqual(script.eval(), [])
+        self.assertEqual(script.var['a'], 2)
+
+        self.assertEqual(script.eval(), [])
+        self.assertEqual(script.var['a'], 3)
 
 if __name__ == "__main__":
     unittest.main()

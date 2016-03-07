@@ -65,6 +65,13 @@ class ConfigTest(unittest.TestCase):
                            }''')
         self.assertEqual(len(config.sensors),1)
 
+    def test_parser_actor_post(self):
+        config = Config('''actor post {
+                                label: 'to_server2'
+                                url: http://127.0.0.1:8223/set/value
+                           }''')
+        self.assertEqual(len(config.actors),1)
+
     def test_parser_sensor_DS18B20(self):
         config = Config('''sensor DS18B20 {
                                 label: sensor_event

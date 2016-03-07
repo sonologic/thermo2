@@ -69,13 +69,9 @@ class HttpdTest(unittest.TestCase):
 
         data = json.loads(response.text)
 
-        self.assertEqual(len(data), 3)
+        self.assertEqual(len(data), 1)
         self.assertEqual('label' in data.keys(), True)
         self.assertEqual(data['label'], 'test_event')
-        self.assertEqual('t' in data.keys(), True)
-        self.assertEqual(data['t'][0], '1234')
-        self.assertEqual('value' in data.keys(), True)
-        self.assertEqual(data['value'][0], '20.5')
 
         self.serverProcess.terminate()
         self.serverProcess.join()

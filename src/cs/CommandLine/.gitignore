@@ -8,7 +8,6 @@ src/templates/CSharpTemplate/bin/*
 src/templates/CSharpTemplate/obj 
 src/templates/VBNetTemplate/bin/*
 src/templates/VBNetTemplate/obj
-packages
 *.suo
 *.userprefs
 *~
@@ -19,6 +18,5 @@ src/tests/test-results/*
 *.DS_Store
 *.csproj.user
 TestResult.xml
-*.nupkg
 *.old
 StyleCop.Cache

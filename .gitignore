@@ -1,1 +1,3 @@
 *.pyc
+src/cs/Thermo2Cli/Thermo2Cli/bin
+src/cs/Thermo2Cli/Thermo2Cli/obj

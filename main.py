@@ -17,6 +17,8 @@ class Main(object):
     def main(self):
         self.parseArgs()
 
+        print self.args
+
         if self.args.debug:
             self.logger.setLevel(logging.DEBUG)
         elif self.args.verbose:
@@ -41,7 +43,7 @@ class Main(object):
 
         thermo2.verbose = self.args.verbose
 
-        delay = self.args.delay
+        delay = self.args.delay[0]
 
         httpd = Httpd(config.listen, thermo2.scheduler)
         
@@ -53,12 +55,15 @@ class Main(object):
 
     def parseArgs(self):
         parser = argparse.ArgumentParser(description='Thermo2 arguments')
-        parser.add_argument("--config", nargs=1, help='config file', required=True)
-        parser.add_argument("--delay", nargs=1, help='delay in seconds (float)', default=0.5)
-        parser.add_argument("--verbose", help='be verbose', action='store_const', const=True, default=False)
+        parser.add_argument('-c', "--config", nargs=1, help='config file', required=True)
+        parser.add_argument('-d', "--delay", nargs=1, help='delay in seconds (float)', default=[0.5])
+        parser.add_argument('-v', "--verbose", help='be verbose', action='store_const', const=True, default=False)
         parser.add_argument("--debug", help='be more verbose', action='store_const', const=True, default=False)
 
         self.args = parser.parse_args()
+
+        if self.args.delay!=None:
+            self.args.delay[0]=float(self.args.delay[0])
 
 if __name__ == '__main__':
     main = Main()

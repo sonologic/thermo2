@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Thermo2;
 using CommandLine;
+using CommandLine.Text;
 
 namespace Thermo2Cli
 {
     class Options
     {
-        [Option('s', "set", HelpText = "Inject event")]
+        [Option('s', "set", HelpText = "Inject event (requires -v or --value)")]
         public string Set { get; set; }
 
         [Option('g', "get", HelpText = "Get cached event")]
@@ -22,9 +23,8 @@ namespace Thermo2Cli
         [HelpOption]
         public string GetUsage()
         {
-            var usage = new StringBuilder();
-            usage.AppendLine("Thermo2 client");
-            return usage.ToString();
+            return HelpText.AutoBuild(this,
+                (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
         }
     }
 
@@ -58,7 +58,8 @@ namespace Thermo2Cli
                 }
 */
                 if(options.Get==null && options.Set==null) {
-                    Console.WriteLine("Either specify -s or -g");
+                    Console.WriteLine("Either specify -s or -g\n");
+                    Console.WriteLine(options.GetUsage());
                     return -1;
                 }
 
@@ -76,7 +77,8 @@ namespace Thermo2Cli
                 } else {
                     // set
                     if(options.Value==null) {
-                        Console.WriteLine("-s requires -v to be set");
+                        Console.WriteLine("-s requires -v to be set\n");
+                        Console.WriteLine(options.GetUsage());
                         return -1;
                     }
                     Event set_value = api.Set(options.Set, options.Value, "0.0");

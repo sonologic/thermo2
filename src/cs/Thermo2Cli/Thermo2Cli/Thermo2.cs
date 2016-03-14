@@ -148,6 +148,12 @@ namespace Thermo2
             return v;
         }
 
+        // <summary>
+        //   Get the cached event value from the thermo2d instance.
+        //   <see cref="Event"/>
+        // </summary>
+        // <param name="label">Label of cached event to get.</param>
+        // <returns>Returns an Event instance or null on failure.</returns>
         public Event Get(string label)
         {
             WebClient client = new WebClient();
@@ -164,6 +170,13 @@ namespace Thermo2
             }
         }
 
+        // <summary>
+        //   Inject an event into the thermo2d instance.
+        // </summary>
+        // <param name="label">Label of event to inject.</param>
+        // <param name="t">Time (in seconds since epoch) of event to inject.</param>
+        // <param name="value">Value of event to inject.</param>
+        // <returns>Returns an Event instance or null on failure.</returns>
         public Event Set(string label, string value, string t)
         {
             try {

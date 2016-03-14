@@ -35,6 +35,7 @@ namespace Thermo2Cli
             var options = new Options();
             CommandLine.Parser parser = new Parser();
             if(parser.ParseArguments(args, options)) {
+/*
                 Console.WriteLine("Get: ");
                 if(options.Get!=null) {
                   Console.WriteLine(options.Get);
@@ -55,7 +56,7 @@ namespace Thermo2Cli
                 } else {
                   Console.WriteLine("null");
                 }
-
+*/
                 if(options.Get==null && options.Set==null) {
                     Console.WriteLine("Either specify -s or -g");
                     return -1;
@@ -65,13 +66,26 @@ namespace Thermo2Cli
 
                 if(options.Get!=null) {
                     // get
-                    Value get_value = api.Get(options.Get);
-                    Console.WriteLine(get_value);
+                    Event get_value = api.Get(options.Get);
+                    if(get_value == null) {
+                        Console.WriteLine("no value");
+                    } else {
+                        Console.WriteLine(get_value.ToString());
+                    }
                     return 0;
                 } else {
                     // set
-                    Console.WriteLine("Set not implemented yet..");
-                    return -1;
+                    if(options.Value==null) {
+                        Console.WriteLine("-s requires -v to be set");
+                        return -1;
+                    }
+                    Event set_value = api.Set(options.Set, options.Value, "0.0");
+                    if(set_value == null) {
+                        Console.WriteLine("no value");
+                    } else {
+                        Console.WriteLine(set_value.ToString());
+                    }
+                    return 0;
                 }
             } else {
                 Console.WriteLine(options.GetUsage());

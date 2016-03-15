@@ -11,13 +11,19 @@ namespace Thermo2Cli
 {
     class Options
     {
-        [Option('s', "set", HelpText = "Inject event (requires -v or --value)")]
+        [Option('h', "host", HelpText = "Host to connect to (defaults to 127.0.0.1)")]
+        public string Host { get; set; }
+
+        [Option('p', "port", HelpText = "Port to connect to (defaults to 8822)")]
+        public int Port { get; set; }
+
+        [Option('s', "set", HelpText = "Inject event (requires -v or --value)", MutuallyExclusiveSet = "set")]
         public string Set { get; set; }
 
-        [Option('g', "get", HelpText = "Get cached event")]
+        [Option('g', "get", HelpText = "Get cached event", MutuallyExclusiveSet = "get")]
         public string Get { get; set; }
 
-        [Option('v', "value", HelpText = "Value of event to inject")]
+        [Option('v', "value", HelpText = "Value of event to inject", MutuallyExclusiveSet = "set")]
         public string Value { get; set; }
 
         [HelpOption]
@@ -63,15 +69,24 @@ namespace Thermo2Cli
                     return -1;
                 }
 
-                var api = new Api();
+                string host = options.Host;
+                if(host==null)
+                    host = "127.0.0.1";
+
+                int port = options.Port;
+
+                if(port==0)
+                    port = 8822;
+
+                var api = new Api(host, port);
 
                 if(options.Get!=null) {
                     // get
                     Event get_value = api.Get(options.Get);
                     if(get_value == null) {
-                        Console.WriteLine("no value");
+                        Console.WriteLine(options.Get + "::");
                     } else {
-                        Console.WriteLine(get_value.ToString());
+                        Console.WriteLine(options.Get + ":" + get_value + ":" + get_value.GetTime());
                     }
                     return 0;
                 } else {
@@ -83,9 +98,9 @@ namespace Thermo2Cli
                     }
                     Event set_value = api.Set(options.Set, options.Value, "0.0");
                     if(set_value == null) {
-                        Console.WriteLine("no value");
+                        Console.WriteLine(options.Get + "::");
                     } else {
-                        Console.WriteLine(set_value.ToString());
+                        Console.WriteLine(options.Set + ":" + set_value + ":" + set_value.GetTime());
                     }
                     return 0;
                 }

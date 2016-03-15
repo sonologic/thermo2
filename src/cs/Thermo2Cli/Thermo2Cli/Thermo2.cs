@@ -88,6 +88,11 @@ namespace Thermo2
                     this.t.ToString("N3"),
                     (string)this);
         }
+
+        public decimal GetTime()
+        {
+            return this.t;
+        }
     }
 
     public class Api

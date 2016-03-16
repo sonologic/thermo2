@@ -3,5 +3,8 @@ src/cs/Thermo2Cli/Thermo2Cli/bin
 src/cs/Thermo2Cli/Thermo2Cli/obj
 src/cs/Thermo2Cli/Thermo2Cli/packages
 src/cs/Thermo2Cli/packages
+src/cs/Thermo2Cli/Thermo2Cli.Tests/bin
+src/cs/Thermo2Cli/Thermo2Cli.Tests/obj
+src/cs/Thermo2Cli/Thermo2Cli.Tests/packages
 Thermo2Cli.userprefs
 src/cs/Thermo2Cli/.vs

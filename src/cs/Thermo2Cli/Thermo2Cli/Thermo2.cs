@@ -122,6 +122,21 @@ namespace Thermo2
             this.InitUrl();
         }
 
+        public string GetHost()
+        {
+            return Host;
+        }
+
+        public int GetPort()
+        {
+            return Port;
+        }
+
+        public string GetUrl()
+        {
+            return Url;
+        }
+
         private Event ParseJsonResponse(string response)
         {
             JObject o = (JObject)JObject.Parse(response);

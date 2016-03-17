@@ -6,7 +6,7 @@ using namespace std;
 struct Thermo2Event {
     string label;
     string value;
-    float t;
+    long double t;
 };
 
 class Thermo2Api {

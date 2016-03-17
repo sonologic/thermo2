@@ -1,4 +1,6 @@
 #include <string>
+#include <iostream>
+#include <cpr/cpr.h>
 #include "Api.h"
 
 using namespace std;
@@ -24,6 +26,11 @@ Thermo2Api::Thermo2Api(string host, int port)
 
 Thermo2Event *Thermo2Api::Get(string label)
 {
+    auto r = cpr::Get(cpr::Url{this->url + "/get/" + label});
+
+    cout << r.status_code << endl;
+    cout << r.header["Content-Type"] << endl;
+    cout << r.text << endl;
     return NULL;
 }
 

@@ -10,3 +10,4 @@ Thermo2Cli.userprefs
 src/cs/Thermo2Cli/.vs
 src/cc/main
 src/cc/*.o
+src/cc/build

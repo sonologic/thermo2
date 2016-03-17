@@ -10,6 +10,7 @@ and .net (mono).
 Multiple thermo2 daemons can be running, communicating each 
 other and users over http(s).
 
+
 Running
 =======
 
@@ -22,6 +23,56 @@ In another console, now try:
 
 $ cd src/py
 $ ./thermo2cli.py -g sum_value
+
+
+Testing
+=======
+
+To run python unit tests:
+
+$ cd src/py/test
+$ ./test.py
+
+
+.NET
+====
+
+The C# code lives under src/cs/Thermo2Cli, where you will find a
+MS Visual Studio solution file.
+
+Windows
+-------
+
+Install Visual Studio, double-click the solution file, magic happens.
+
+Linux
+-----
+
+Get nuget.exe:
+
+https://dist.nuget.org/index.html
+
+Then restore packages (use latest mono):
+
+$ cd src/cs/Thermo2Cli
+$ mono ~/path/to/nuget.exe restore -o packages
+
+This will install CommandLineParser and Newtonsoft.Json.
+
+then:
+
+$ xbuild
+
+This will build eveything. 
+
+To run unit tests:
+
+$ mono packages/xunit.runner.console.2.1.0/tools/xunit.console.exe Thermo2Cli.Tests/bin/Debug/Thermo2Cli.Tests.dll
+
+or:
+
+$ mono packages/xunit.runner.console.2.1.0/tools/xunit.console.exe Thermo2Cli.Tests/bin/Debug/Thermo2Cli.Tests.dll -verbose
+
 
 Security
 ========
@@ -44,6 +95,7 @@ The first instance can be set up to poll the second instance for
 user input, avoiding the need for direct interaction between 
 user and first instance.
 
+
 Design
 ======
 
@@ -58,6 +110,7 @@ asynchronous processes, in case of many listeners.
 Only when all of the asynchronous processes have completed will another
 event with that label be able to fire. Any events with that label in the
 time before completion of all asynchronous event handlers will be ignored.
+
 
 Use cases
 =========

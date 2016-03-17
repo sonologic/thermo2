@@ -3,6 +3,7 @@
 import unittest
 import sys, os
 import logging
+import argparse
 
 sys.path.insert(0, "../")
 
@@ -30,8 +31,19 @@ from test_httpd import HttpdTest
 
 if __name__ == "__main__":
 
+
+        parser = argparse.ArgumentParser(description='Test runner')
+        parser.add_argument('--verbose', dest='verbose', action='store_const',
+                           const=True, default=False,
+                           help='Verbose output')
+
+        args = parser.parse_args()
+
         logger = logging.getLogger('')
-        logger.setLevel(logging.DEBUG)
+        if args.verbose:
+            logger.setLevel(logging.DEBUG)
+        else:
+            logger.setLevel(logging.ERROR)
         logger.addHandler(LogHandler())
 
         suites = unittest.TestSuite()

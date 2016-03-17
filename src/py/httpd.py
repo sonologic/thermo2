@@ -68,7 +68,6 @@ class MyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             if re.match('^'+ParserConstants.RE_INTEGER+'$', value):
                 value = int(value)
             elif re.match('^'+ParserConstants.RE_FLOAT+'$', value):
-                print "float incoming: " + str(value)
                 value = float(value)
 
             self.server.scheduler.setValue(label, value, t)

@@ -15,9 +15,6 @@ class http_handler(BaseHTTPServer.BaseHTTPRequestHandler):
     #test_no = 0
 
     def do_POST(self):
-        print "post"
-        #val = http_handler.test_sequence[http_handler.test_no]
-        #http_handler.test_no = (http_handler.test_no + 1) % len(http_handler.test_sequence)
         self.send_response(200)
         self.send_header("Content-type", "application/json")
         self.end_headers()

@@ -6,4 +6,4 @@ rm -Rf build
 mkdir build
 cd build
 cmake ..
-make
+make thermo2cli

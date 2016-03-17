@@ -8,3 +8,5 @@ src/cs/Thermo2Cli/Thermo2Cli.Tests/obj
 src/cs/Thermo2Cli/Thermo2Cli.Tests/packages
 Thermo2Cli.userprefs
 src/cs/Thermo2Cli/.vs
+src/cc/main
+src/cc/*.o

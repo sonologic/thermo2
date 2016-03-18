@@ -26,7 +26,7 @@ Thermo2Api::Thermo2Api(string host, int port)
     this->InitUrl();
 }
 
-Thermo2Event *Thermo2Api::Get(string label)
+Thermo2Event *Thermo2Api::Get(const string label)
 {
     auto r = cpr::Get(cpr::Url{this->url + "/get/" + label});
 

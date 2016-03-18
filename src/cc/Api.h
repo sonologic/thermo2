@@ -17,7 +17,7 @@ class Thermo2Api {
   public:
                     Thermo2Api();
                     Thermo2Api(string, int);
-    Thermo2Event   *Get(string label);
+    Thermo2Event   *Get(const string);
     void            Set(string label, string value, float t);
 };
 

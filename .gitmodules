@@ -4,3 +4,6 @@
 [submodule "src/cc/json"]
 	path = src/cc/json
 	url = git@github.com:nlohmann/json.git
+[submodule "src/cc/tclap-code"]
+	path = src/cc/tclap-code
+	url = git://git.code.sf.net/p/tclap/code

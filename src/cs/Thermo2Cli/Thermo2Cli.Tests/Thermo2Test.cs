@@ -19,7 +19,7 @@ namespace Thermo2Test
         public void Run()
         {
             HttpListener listener = new HttpListener();
-            // runas netsh http add urlacl url=http://127.0.0.1:41827/get/ user=gmc
+            // runas netsh http add urlacl url=http://*:41827/get/ user=gmc
             listener.Prefixes.Add("http://*:41827/get/");
             listener.Start();
 
@@ -87,7 +87,7 @@ namespace Thermo2Test
 
             Event e = api.Get("test_value");
 
-            Assert.Equal(e.GetTime(), 3.14);
+            Assert.Equal(e.GetTime() == (decimal)3.14, true);
         }
 
         public TestApi()

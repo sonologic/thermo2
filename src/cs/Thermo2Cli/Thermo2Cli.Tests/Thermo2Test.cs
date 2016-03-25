@@ -20,7 +20,7 @@ namespace Thermo2Test
         {
             HttpListener listener = new HttpListener();
             // runas netsh http add urlacl url=http://127.0.0.1:41827/get/ user=gmc
-            listener.Prefixes.Add("http://127.0.0.1:41827/get/");
+            listener.Prefixes.Add("http://*:41827/get/");
             listener.Start();
 
             while(!abort)
@@ -87,6 +87,7 @@ namespace Thermo2Test
 
             Event e = api.Get("test_value");
 
+            Assert.Equal(e.GetTime(), 3.14);
         }
 
         public TestApi()
@@ -104,7 +105,6 @@ namespace Thermo2Test
         {
             System.Console.WriteLine("aborting thread");
 
-            //wsThread.Abort();
             ws.abort = true;
 
             System.Console.WriteLine("joining thread");

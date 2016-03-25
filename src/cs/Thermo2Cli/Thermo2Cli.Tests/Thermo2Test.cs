@@ -32,7 +32,7 @@ namespace Thermo2Test
                 while(!task.IsCompleted && !abort)
                 {
                     Console.WriteLine("in task loop");
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                 }
 
                 if (!abort)

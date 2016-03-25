@@ -30,10 +30,6 @@ namespace Thermo2
             this.t = t;
         }
 
-/*        static public implicit operator Value(int value)
-        {
-            return new Value(value);
-        }*/
 
         public Event(string label, decimal value, decimal t)
         {
@@ -42,11 +38,6 @@ namespace Thermo2
             this.label = label;
             this.t = t;
         }
-/*
-        static public implicit operator Value(float value)
-        {
-            return new Value(value);
-        }*/
 
         public Event(string label, string value, decimal t)
         {
@@ -55,12 +46,6 @@ namespace Thermo2
             this.label = label;
             this.t = t;
         }
-/*
-        static public implicit operator Value(string value)
-        {
-            return new Value(value);
-        }
-*/
 
         static public implicit operator string(Event value)
         {
@@ -91,7 +76,12 @@ namespace Thermo2
 
         public decimal GetTime()
         {
-            return this.t;
+            return t;
+        }
+
+        public string GetLabel()
+        {
+            return label;
         }
     }
 
@@ -156,8 +146,10 @@ namespace Thermo2
             }
     
             Event v;
-     
-            if(json_value.Type == JTokenType.Integer) { 
+    
+            if(json_value == null) {
+                v = new Event((string)json_label, "", (decimal)json_t);
+            } else if(json_value.Type == JTokenType.Integer) { 
                 v = new Event((string)json_label, (int)json_value, (decimal)json_t);
             } else if(json_value.Type == JTokenType.Float) {
                 v = new Event((string)json_label, (decimal)json_value, (decimal)json_t);

@@ -99,5 +99,8 @@ if __name__ == "__main__":
 
         suites.addTest(suite)
 
-        unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suites))
+        result = unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite(suites))
+
+        if result.failures != 0:
+            sys.exit(1)
 

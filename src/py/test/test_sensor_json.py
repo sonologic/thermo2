@@ -70,9 +70,9 @@ class JsonSensorTest(unittest.TestCase):
         self.assertEqual(events[0].getLabel(),'test_sensor_event')
 
     def test_json_sensor_no_json(self):
-        """JsonSensor with www.bbc.co.uk"""
+        """JsonSensor with www.sonologic.nl"""
         sensor = JsonSensor()
-        sensor.url='http://chasmcity.sonologic.nl/'
+        sensor.url='http://www.sonologic.nl/'
         sensor.label='test_sensor'
         sensor.addEvent('test_sensor_event')
         sensor.value = False

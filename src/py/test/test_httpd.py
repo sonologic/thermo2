@@ -50,7 +50,7 @@ class HttpdTest(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual('content-type' in response.headers.keys(), True)
+        self.assertEqual('Content-type' in response.headers.keys(), True)
         self.assertEqual(response.headers['Content-type'], 'application/json')
 
         data = json.loads(response.text)

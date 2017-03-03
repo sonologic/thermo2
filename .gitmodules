@@ -7,3 +7,6 @@
 [submodule "src/cc/tclap-code"]
 	path = src/cc/tclap-code
 	url = git://git.code.sf.net/p/tclap/code
+[submodule "src/esp8266/simple_sensor/lib/esphttpclient"]
+	path = src/esp8266/simple_sensor/lib/esphttpclient
+	url = git@github.com:sonologic/esphttpclient.git

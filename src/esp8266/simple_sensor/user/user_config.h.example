@@ -1,0 +1,8 @@
+#define SSID "yourssid"
+#define SSID_PASSWORD "yourpassword"
+
+#define GPIO_SWITCH 4
+#define SLEEP_TIME_US (10*1000*1000)
+
+#define MIN_LOOP_TIMER_MS   5
+#define MAX_LOOP_TIMER_MS   100

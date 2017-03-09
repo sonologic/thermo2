@@ -1,3 +1,4 @@
+#include "os_type.h"
 #include "persist.h"
 
 #define USER_DATA_OFFSET 256
@@ -51,4 +52,3 @@ persist_save()
 
     return rv;
 }
-

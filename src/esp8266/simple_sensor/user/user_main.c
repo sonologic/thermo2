@@ -39,7 +39,7 @@ static void wifi_connect(void);
 
 static os_timer_t timer;
 static state_type state = STATE_IDLE;
-static int timeout = 0;
+//static int timeout = 0;
 /*
 static void ICACHE_FLASH_ATTR
 delay_ms(int i)
@@ -74,6 +74,9 @@ timer_fn(void *timer_data)
     switch(state) { 
         case STATE_LOAD_PERSIST:
             if(persist_load()) {
+            	PRINTF("persist data sensor value: %d\r\n", persist_data_ptr()->sensor_value);
+            	PRINTF("persist data sensor poll count: %d\r\n", persist_data_ptr()->poll_counter);
+
                 state = STATE_HF_READ;
                 persist_data_ptr()->poll_counter += 1;
 
@@ -127,17 +130,17 @@ timer_fn(void *timer_data)
             state = STATE_HF_SEND_WAIT;
             break;
         case STATE_HF_SEND_WAIT:
-            state = STATE_HF_SEND_WAIT;
+            state = STATE_LF_READ;
             break;
         case STATE_LF_READ:
             state = STATE_LF_WIFI_CONNECT;
             break;
         case STATE_LF_WIFI_CONNECT:
             if(wifi_station_get_connect_status()==STATION_GOT_IP) {
-                state = STATE_HF_SEND;
+                state = STATE_LF_SEND;
             } else {
                 wifi_connect();
-                state = STATE_HF_WIFI_WAIT;
+                state = STATE_LF_WIFI_WAIT;
             }
             break;
         case STATE_LF_WIFI_WAIT:
@@ -155,6 +158,7 @@ timer_fn(void *timer_data)
             // go to deep sleep
             persist_save();
             system_deep_sleep(SLEEP_TIME_US);
+            return;
             break;
         default:
             // uhoh
@@ -211,7 +215,7 @@ wifi_connect()
     os_memcpy(&stationConf.ssid, ssid, 32);
     os_memcpy(&stationConf.password, password, 64);
     wifi_station_set_config(&stationConf);
-    wifi_set_event_handler_cb(wifi_handle_event_cb);
+    //wifi_set_event_handler_cb(wifi_handle_event_cb);
     wifi_station_connect();
 }
 
@@ -229,7 +233,7 @@ user_init()
 
     PRINTF("wake\r\n");
 
-    GPIO_DIS_OUTPUT(1<<GPIO_SWITCH);
+    GPIO_DIS_OUTPUT(GPIO_SWITCH);
     
     reset_info = system_get_rst_info();
 
